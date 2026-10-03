@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased — Accounting and Privacy Corrections
+
+### Fixed
+- Enforced cache-only Neocities builds independently of local environment files and added the shared `.env.neocities` file to the tracked configuration.
+- Removed the remaining public CORS-proxy fallback from automatic orbit refresh.
+- Changed static-cache success messages to explain rebuild/redeploy freshness and reserve warning severity for partial/retained results.
+- Fixed successful orbit recovery being deduplicated against an error entry; matching timestamps no longer suppress changed totals.
+- Replaced cumulative engagement/error sends with per-visit deltas shared by manual, SPA, and lifecycle flush paths.
+- Deferred bounce classification until a visit ends, avoiding false bounces from intermediate manual flushes.
+- Preserved engagement across repeat manual views of the same path and persisted errors when engagement tracking is disabled.
+- Applied consent/privacy gates to polling, pending totals responses, delayed performance writes, error capture, persistence, and remote sends.
+- Made explicit denial effective in implicit-consent mode and stopped active listeners/polling on revocation.
+- Kept device/session/navigation diagnostics local and scrubbed those fields from legacy collector files on startup.
+
+### Validation and Dependencies
+- Added tracker lifecycle/consent tests, orbit boundary/recovery tests, real collector HTTP tests, and deployment configuration tests.
+- Updated compatible dependency versions in the lockfile; production dependency audit reports zero known vulnerabilities. Development-only Vitest advisories require a separate test-runner upgrade.
+- Build-time prefetch retained all 19 existing site snapshots after upstream HTTP 502 responses; the generated cache labels those entries stale and keeps their original timestamps.
+
 ## 3.2.0 — Static Orbit Reliability Patch
 
 ### Fixed

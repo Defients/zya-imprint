@@ -10,6 +10,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "");
   return {
     base: env.VITE_BASE_PATH || "/zya-imprint/",
+    // A static build must remain cache-only even if a shell/.env.local enables APIs.
+    define: mode === "neocities" ? { "import.meta.env.VITE_RUNTIME_API": JSON.stringify("disabled") } : {},
     plugins: [react(), tailwindcss()],
     resolve: { alias: { "@": path.resolve(__dirname, ".") } },
     build: {

@@ -178,12 +178,11 @@ export function summarizeOrbitRefresh(results: NeocitiesSiteResult[]): OrbitRefr
 }
 
 export function sameHistoryPoint(
-  existing: { timestamp?: string; views?: number; hits?: number; lastUpdated?: string | null } | undefined,
+  existing: { timestamp?: string; views?: number; hits?: number; lastUpdated?: string | null; error?: string | null } | undefined,
   incoming: NeocitiesSiteResult
 ) {
-  if (!existing) return false;
-  return existing.timestamp === incoming.timestamp
-    || (Number(existing.views || 0) === incoming.views
+  if (!existing || existing.error) return false;
+  return Number(existing.views || 0) === incoming.views
       && Number(existing.hits || 0) === incoming.hits
-      && (existing.lastUpdated || null) === incoming.lastUpdated);
+      && (existing.lastUpdated || null) === incoming.lastUpdated;
 }

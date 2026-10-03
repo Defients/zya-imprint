@@ -78,7 +78,7 @@ describe("orbit refresh summaries", () => {
 
   it("deduplicates identical history points", () => {
     const incoming = normalizeNeocitiesInfo("deffy", { views: 10, hits: 20, last_updated: "updated" }, "2026-07-15T20:00:00.000Z", "static-cache");
-    expect(sameHistoryPoint({ timestamp: incoming.timestamp, views: 1, hits: 2 }, incoming)).toBe(true);
+    expect(sameHistoryPoint({ timestamp: incoming.timestamp, views: 1, hits: 2 }, incoming)).toBe(false);
     expect(sameHistoryPoint({ timestamp: "older", views: 10, hits: 20, lastUpdated: "updated" }, incoming)).toBe(true);
     expect(sameHistoryPoint({ timestamp: "older", views: 11, hits: 20, lastUpdated: "updated" }, incoming)).toBe(false);
   });

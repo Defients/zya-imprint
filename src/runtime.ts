@@ -7,11 +7,6 @@ export const RUNTIME_API_MODE: RuntimeApiMode = rawMode === "enabled" || rawMode
 
 const configuredApiBase = String(import.meta.env.VITE_API_BASE_URL || "").trim().replace(/\/+$/, "");
 
-// CORS proxy prefix used for direct Neocities API calls when the runtime API is
-// unreachable. The target URL is appended (URL-encoded) to this prefix.
-// Override via VITE_NEOCITIES_CORS_PROXY; defaults to corsproxy.io.
-export const corsProxyUrl = String(import.meta.env.VITE_NEOCITIES_CORS_PROXY || "https://corsproxy.io/?url=").trim();
-
 export function apiUrl(path: string) {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   return `${configuredApiBase}${normalizedPath}`;

@@ -68,6 +68,9 @@
   var neocitiesData = null;
   var neocitiesTimer = null;
   var cleanupFns = [];
+  var consentDenied = false;
+  var permissionGeneration = 0;
+  var flushedErrors = 0;
 
   function createEngagementState() {
     return {
@@ -78,7 +81,12 @@
       scrollMilestones: [],
       clickCount: 0,
       interactionCount: 0,
-      visible: true,
+      flushedTime: 0,
+      flushedClicks: 0,
+      flushedInteractions: 0,
+      flushedScroll: 0,
+      flushedBounces: 0,
+      visible: !document.hidden,
       lastVisibleChange: Date.now(),
       rafPending: false
     };
@@ -99,8 +107,12 @@
   }
 
   function consentGranted() {
+    if (consentDenied) return false;
+    var saved = null;
+    try { saved = localStorage.getItem(config.consentKey); } catch (_) {}
+    if (saved === "denied") return false;
     if (config.consent === "disabled" || config.consent === "implicit") return true;
-    try { return localStorage.getItem(config.consentKey) === "granted"; } catch (_) { return false; }
+    return saved === "granted";
   }
 
   function canTrack() {
@@ -279,6 +291,7 @@
   function setupErrorTracking() {
     if (!config.trackErrors) return;
     window.addEventListener("error", function (event) {
+      if (!state.enabled || !state.lastPath || !canTrack().ok) return;
       errorCount += 1;
       lastError = {
         message: String(event.message || "Unknown error").slice(0, 500),
@@ -289,6 +302,7 @@
       log("error captured", lastError);
     });
     window.addEventListener("unhandledrejection", function (event) {
+      if (!state.enabled || !state.lastPath || !canTrack().ok) return;
       errorCount += 1;
       var reason = event.reason;
       lastError = {
@@ -394,7 +408,7 @@
     return data;
   }
 
-  function saveEngagementToStore(path, data) {
+  function saveEngagementToStore(path, data, newErrors) {
     if (!data) return;
     var store = loadStore();
     var page = store.pages[path];
@@ -406,8 +420,8 @@
     page.interactionCount = Number(page.interactionCount || 0) + data.interactionCount;
     page.bounces = Number(page.bounces || 0) + data.bounces;
     page.returnVisits = Math.max(0, Number(page.views || 0) - Number(page.uniqueSessions || 0));
-    page.jsErrors = Number(page.jsErrors || 0) + errorCount;
-    if (lastError) page.lastError = lastError;
+    page.jsErrors = Number(page.jsErrors || 0) + newErrors;
+    if (newErrors && lastError) page.lastError = lastError;
     store.pages[path] = page;
     saveStore(store);
   }
@@ -422,7 +436,8 @@
   }
 
   function fetchNeocitiesInfo() {
-    if (!config.trackNeocities) return;
+    if (!config.trackNeocities || !state.enabled || !canTrack().ok) return;
+    var generation = permissionGeneration;
     var site = config.neocitiesSite || config.siteId;
     var endpoint = config.neocitiesEndpoint;
     if (!site || !endpoint) {
@@ -436,6 +451,7 @@
         return res.json();
       })
       .then(function (payload) {
+        if (generation !== permissionGeneration || !state.enabled || !canTrack().ok) return;
         var info = payload && payload.info;
         if (!info && payload && Array.isArray(payload.sites)) {
           info = payload.sites.find(function (entry) {
@@ -463,7 +479,7 @@
   }
 
   function startNeocitiesPolling() {
-    if (!config.trackNeocities || !config.neocitiesEndpoint) return;
+    if (!config.trackNeocities || !config.neocitiesEndpoint || neocitiesTimer !== null || !state.enabled || !canTrack().ok) return;
     fetchNeocitiesInfo();
     neocitiesTimer = setInterval(fetchNeocitiesInfo, 1800000);
   }
@@ -510,6 +526,7 @@
   }
 
   function saveStore(store) {
+    if (!state.enabled || !canTrack().ok) return;
     store.meta.updatedAt = nowIso();
     prune(store);
     try { localStorage.setItem(config.storageKey, JSON.stringify(store)); }
@@ -547,8 +564,13 @@
 
   /* ── Remote Sending ── */
   function sendRemote(payload) {
-    if (!config.collector) return;
-    var body = JSON.stringify(payload);
+    if (!config.collector || !state.enabled || !canTrack().ok) return;
+    // Rich environment/session diagnostics remain in the first-party local snapshot.
+    var aggregate = {};
+    Object.keys(payload).forEach(function (key) {
+      if (["device", "session", "sessionId", "navigation", "fullReferrer"].indexOf(key) === -1) aggregate[key] = payload[key];
+    });
+    var body = JSON.stringify(aggregate);
     try {
       if (navigator.sendBeacon) {
         var accepted = navigator.sendBeacon(config.collector, new Blob([body], { type: "application/json" }));
@@ -581,11 +603,13 @@
     var timestamp = Date.now();
     if (path === state.lastPath && timestamp - state.lastTrackedAt < 300) return false;
 
-    if (state.lastPath && state.lastPath !== path) {
-      var flushed = flushEngagement(state.lastPath);
-      saveEngagementToStore(state.lastPath, flushed);
+    if (state.lastPath) {
+      flushCurrentPage(true);
       cleanupEngagement();
     }
+    errorCount = 0;
+    flushedErrors = 0;
+    lastError = null;
 
     state.lastPath = path;
     state.lastTrackedAt = timestamp;
@@ -705,14 +729,37 @@
     log("tracked", payload);
 
     setupEngagementTracking(path);
+    startNeocitiesPolling();
     return true;
   }
 
-  function flushCurrentPage() {
-    if (state.lastPath) {
-      var flushed = flushEngagement(state.lastPath);
-      if (flushed) {
-        saveEngagementToStore(state.lastPath, flushed);
+  function flushCurrentPage(finalize) {
+    if (state.lastPath && state.enabled && canTrack().ok) {
+      var totals = flushEngagement(state.lastPath);
+      var newErrors = config.trackErrors ? errorCount - flushedErrors : 0;
+      var flushed = totals ? {
+        totalTimeOnPage: totals.totalTimeOnPage - engagement.flushedTime,
+        maxScrollPercent: totals.maxScrollPercent,
+        scrollMilestones: totals.scrollMilestones,
+        clickCount: totals.clickCount - engagement.flushedClicks,
+        interactionCount: totals.interactionCount - engagement.flushedInteractions,
+        // Classify a bounce when the visit ends, never on an intermediate checkpoint.
+        bounces: finalize === true && engagement.flushedBounces === 0 ? totals.bounces : 0
+      } : { totalTimeOnPage: 0, maxScrollPercent: 0, scrollMilestones: [], clickCount: 0, interactionCount: 0, bounces: 0 };
+      var changed = newErrors || flushed.totalTimeOnPage || flushed.clickCount || flushed.interactionCount || flushed.bounces
+        || (totals && totals.maxScrollPercent > engagement.flushedScroll);
+      if (changed) {
+        // Both persistence paths consume the same deltas; repeated lifecycle flushes are harmless.
+        saveEngagementToStore(state.lastPath, flushed, newErrors);
+        // Checkpoint before sending/emitting so event listeners cannot re-flush these counters.
+        if (totals) {
+          engagement.flushedTime = totals.totalTimeOnPage;
+          engagement.flushedClicks = totals.clickCount;
+          engagement.flushedInteractions = totals.interactionCount;
+          engagement.flushedScroll = totals.maxScrollPercent;
+          engagement.flushedBounces += flushed.bounces;
+        }
+        flushedErrors = errorCount;
         if (config.collector) {
           sendRemote({
             version: 2,
@@ -723,7 +770,7 @@
             path: state.lastPath,
             viewedAt: nowIso(),
             engagement: flushed,
-            errors: config.trackErrors ? { count: errorCount, lastError: lastError || undefined } : undefined
+            errors: config.trackErrors ? { count: newErrors, lastError: newErrors ? lastError || undefined : undefined } : undefined
           });
         }
         emit("zya:imprint:engagement", { path: state.lastPath, engagement: flushed });
@@ -751,6 +798,7 @@
   }
 
   function grantConsent() {
+    consentDenied = false;
     try { localStorage.setItem(config.consentKey, "granted"); } catch (_) {}
     state.enabled = true;
     state.reason = "ready";
@@ -758,9 +806,21 @@
   }
 
   function denyConsent() {
+    consentDenied = true;
+    permissionGeneration += 1;
     try { localStorage.setItem(config.consentKey, "denied"); } catch (_) {}
     state.enabled = false;
     state.reason = "consent-denied";
+    state.lastPath = "";
+    state.lastTrackedAt = 0;
+    cleanupEngagement();
+    engagement = createEngagementState();
+    errorCount = 0;
+    flushedErrors = 0;
+    lastError = null;
+    neocitiesData = null;
+    if (neocitiesTimer !== null) clearInterval(neocitiesTimer);
+    neocitiesTimer = null;
   }
 
   function getEngagement() {
@@ -789,10 +849,6 @@
 
   /* ── SPA Route Tracking ── */
   function routeTrack() {
-    flushCurrentPage();
-    cleanupEngagement();
-    errorCount = 0;
-    lastError = null;
     config.page = {};
     track({ path: location.pathname, title: document.title });
   }
@@ -812,38 +868,26 @@
 
   /* ── Page Lifecycle Handlers ── */
   window.addEventListener("pagehide", function () {
-    flushCurrentPage();
-    if (neocitiesTimer) clearInterval(neocitiesTimer);
+    flushCurrentPage(true);
+    if (neocitiesTimer !== null) clearInterval(neocitiesTimer);
+    neocitiesTimer = null;
   });
   window.addEventListener("beforeunload", function () {
     flushCurrentPage();
   });
+  window.addEventListener("pageshow", function () {
+    startNeocitiesPolling();
+  });
 
   /* ── Initialization ── */
   setupErrorTracking();
-  startNeocitiesPolling();
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      track();
-      if (config.trackPerformance && !collectPerformanceMetrics()) {
-        setTimeout(function () {
-          var perf = collectPerformanceMetrics();
-          if (perf) {
-            var store = loadStore();
-            store.meta.performance = perf;
-            var page = store.pages[state.lastPath];
-            if (page) { page.performance = perf; store.pages[state.lastPath] = page; }
-            saveStore(store);
-            log("deferred performance metrics", perf);
-          }
-        }, 2000);
-      }
-    }, { once: true });
-  } else {
-    track();
+  function initialize() {
+    if (!track()) return;
+    var generation = permissionGeneration;
     if (config.trackPerformance && !collectPerformanceMetrics()) {
       setTimeout(function () {
+        if (generation !== permissionGeneration || !state.enabled || !state.lastPath || !canTrack().ok) return;
         var perf = collectPerformanceMetrics();
         if (perf) {
           var store = loadStore();
@@ -855,5 +899,10 @@
         }
       }, 2000);
     }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize, { once: true });
+  } else {
+    initialize();
   }
 })();

@@ -17,7 +17,7 @@ export default defineConfig({
           environment: "jsdom",
           setupFiles: ["./src/test-setup.ts"],
           include: ["src/**/*.test.{ts,tsx}"],
-          exclude: ["src/server.test.ts"]
+          exclude: ["src/server.test.ts", "src/tracker.test.ts", "src/collector.test.ts", "src/buildConfig.test.ts"]
         }
       },
       {
@@ -25,7 +25,7 @@ export default defineConfig({
         test: {
           name: "server",
           environment: "node",
-          include: ["src/server.test.ts"]
+          include: ["src/server.test.ts", "src/tracker.test.ts", "src/collector.test.ts", "src/buildConfig.test.ts"]
         }
       }
     ]

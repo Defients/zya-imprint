@@ -4,6 +4,19 @@ Privacy-first, local-first page analytics for Neocities and other static sites, 
 
 ## v3.2 reliability patch
 
+### Follow-up correctness fixes
+
+- Neocities builds enforce API-disabled mode in Vite, including when the surrounding environment enables APIs. The shared `.env.neocities` defaults are included in the repository.
+- Auto mode falls back to the same-origin static snapshot when the Node API is unavailable; it does not contact a public proxy.
+- Tracker flushes persist and send only new engagement/error counters. Manual navigation, SPA navigation, and repeated unload events use the same accounting path.
+- Consent applies to optional Neocities polling, delayed performance writes, error collection, and lifecycle sends. Revocation stops active polling and discards pending totals responses; a new explicit grant resumes tracking.
+- Rich device, session, and navigation diagnostics stay local. The bundled collector ignores those fields from older trackers and removes them from existing collector files on startup, preserving page counts and aggregate history.
+- Successful orbit refreshes clear prior failure state even when public totals have not changed.
+
+The tracker storage schema remains version 2. These fixes prevent future overcounting; they cannot reconstruct engagement totals already inflated by an older tracker.
+
+### Original v3.2 changes
+
 - Static deployments no longer call missing `/api/*` routes or public CORS proxies.
 - `npm run build:neocities` generates a validated `neocities-cache.json`; the dashboard reloads that same-origin snapshot when “Refresh orbit” is pressed.
 - Node deployments use one same-origin `/api/neocities/batch` request with bounded concurrency and a five-minute server cache.
@@ -46,11 +59,15 @@ The Express server provides:
 
 Set `IMPRINT_COLLECTOR_ENABLED=true`, configure `IMPRINT_ALLOWED_ORIGINS`, and provide `IMPRINT_READ_TOKEN`. The collector stores aggregate page fields only. It does not persist IP addresses or user agents.
 
+Local snapshots can contain device/user-agent, session, and navigation diagnostics. Remote payloads omit `device`, `session`, `sessionId`, `navigation`, and `fullReferrer`; the Node collector also rejects those diagnostic fields by omission when older clients send them. Its retained fields include page metadata, sanitized referrer, counters, errors, performance metrics, and public Neocities totals. Older collector files have their rich diagnostic fields removed on startup. This migration preserves counts and requires a writable collector data file.
+
 Remote installs default to `consent: "required"`:
 
 ```js
 zyaImprint.grantConsent()
 ```
+
+Call `zyaImprint.denyConsent()` to stop further tracking and remote sends. Existing snapshots remain available for inspection/export. Revocation cannot retract a request already handed to the browser or remove copies already received by another server.
 
 ## Install
 

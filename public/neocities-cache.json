@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-14T17:11:08.933Z",
-  "fetchedAt": "2026-08-14T17:11:08.933Z",
+  "generatedAt": "2026-10-03T04:27:08.976Z",
+  "fetchedAt": "2026-10-03T04:27:08.976Z",
   "complete": true,
   "counts": {
     "requested": 19,
     "succeeded": 19,
-    "refreshed": 19,
-    "retained": 0,
+    "refreshed": 0,
+    "retained": 19,
     "failed": 0
   },
   "sites": [
@@ -20,8 +20,9 @@
       "domain": "astrimancy.quest",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.686Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.686Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "astrizda",
@@ -32,8 +33,9 @@
       "domain": "astrizda.com",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.711Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.711Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "auralyx",
@@ -44,8 +46,9 @@
       "domain": "auralyx.site",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.682Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.682Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "bridgebuilder",
@@ -56,8 +59,9 @@
       "domain": "bridgebuilder.pro",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.690Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.690Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "confluxcircuit",
@@ -68,8 +72,9 @@
       "domain": "confluxcircuit.com",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.710Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.710Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "defears",
@@ -80,8 +85,9 @@
       "domain": "defears.app",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.736Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.736Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "deffy",
@@ -96,8 +102,9 @@
         "about"
       ],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.760Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.760Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "defscribe",
@@ -108,8 +115,9 @@
       "domain": "defscribe.pro",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.739Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.739Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "du3l",
@@ -126,8 +134,9 @@
         "multiplayer"
       ],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.784Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.784Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "hybrix",
@@ -138,8 +147,9 @@
       "domain": "hybrix.quest",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.809Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.809Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "kovrycha",
@@ -150,8 +160,9 @@
       "domain": "kovrycha.tech",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.781Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.781Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "madchatter",
@@ -162,8 +173,9 @@
       "domain": "madchatter.fun",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.835Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.835Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "peerly",
@@ -174,8 +186,9 @@
       "domain": "peerly.site",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.808Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.808Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "phexotial",
@@ -186,8 +199,9 @@
       "domain": "phexotial.com",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.860Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.860Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "pikon",
@@ -198,8 +212,9 @@
       "domain": "pikon.me",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.836Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.836Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "pyah",
@@ -210,8 +225,9 @@
       "domain": "pyah.live",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.885Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.885Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "skriv",
@@ -222,8 +238,9 @@
       "domain": "skriv.app",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.910Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.910Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "skywardascent",
@@ -234,8 +251,9 @@
       "domain": "skywardascent.com",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.869Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.869Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     },
     {
       "siteName": "wikirace",
@@ -246,8 +264,9 @@
       "domain": "wikirace.quest",
       "tags": [],
       "error": null,
-      "stale": false,
-      "timestamp": "2026-08-14T17:11:08.933Z"
+      "stale": true,
+      "timestamp": "2026-08-14T17:11:08.933Z",
+      "warning": "Live refresh failed; retained previous snapshot: Invalid JSON (HTTP 502)"
     }
   ]
 }

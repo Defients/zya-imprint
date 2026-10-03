@@ -41,10 +41,7 @@ interface CollectorStore {
       interactionCount?: number;
       jsErrors?: number;
       lastError?: { message: string; source: string; line: number; timestamp: string } | null;
-      device?: Record<string, any> | null;
       performance?: Record<string, any> | null;
-      navigation?: Record<string, any> | null;
-      session?: Record<string, any> | null;
       neocities?: Record<string, any> | null;
     }>;
   }>;
@@ -63,9 +60,29 @@ async function loadCollectorStore() {
   if (!collectorEnabled) return;
   try {
     collectorStore = JSON.parse(await readFile(collectorFile, "utf8"));
+    // Upgrade existing files to the collector's aggregate-only privacy contract.
+    if (scrubCollectorDiagnostics(collectorStore)) {
+      queueCollectorWrite();
+      await writeChain;
+    }
   } catch {
     collectorStore = freshCollectorStore();
   }
+}
+
+function scrubCollectorDiagnostics(store: CollectorStore) {
+  let changed = false;
+  for (const site of Object.values(store.sites)) {
+    for (const page of Object.values(site.pages)) {
+      for (const key of ["device", "session", "navigation", "sessionId", "fullReferrer"] as const) {
+        if (Object.hasOwn(page, key)) {
+          delete (page as any)[key];
+          changed = true;
+        }
+      }
+    }
+  }
+  return changed;
 }
 
 function queueCollectorWrite() {
@@ -430,10 +447,7 @@ async function startServer() {
       page.returnVisits = Math.max(0, page.views - page.uniqueSessions);
       page.daily[day] = Number(page.daily[day] || 0) + 1;
 
-      if (body.device && typeof body.device === "object") page.device = body.device;
       if (body.performance && typeof body.performance === "object") page.performance = body.performance;
-      if (body.navigation && typeof body.navigation === "object") page.navigation = body.navigation;
-      if (body.session && typeof body.session === "object") page.session = body.session;
       if (body.neocities && typeof body.neocities === "object") page.neocities = body.neocities;
       if (body.errors) {
         page.jsErrors = Number(page.jsErrors || 0) + Number(body.errors.count || 0);
