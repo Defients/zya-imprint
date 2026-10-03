@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-14T17:11:08.933Z",
+  "fetchedAt": "2026-08-14T17:11:08.933Z",
+  "complete": true,
+  "counts": {
+    "requested": 19,
+    "succeeded": 19,
+    "refreshed": 19,
+    "retained": 0,
+    "failed": 0
+  },
+  "sites": [
+    {
+      "siteName": "astrimancy",
+      "views": 12580,
+      "hits": 22846,
+      "createdAt": "Tue, 18 Mar 2025 22:04:23 -0000",
+      "lastUpdated": "Sat, 11 Jul 2026 08:56:13 -0000",
+      "domain": "astrimancy.quest",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.686Z"
+    },
+    {
+      "siteName": "astrizda",
+      "views": 4681,
+      "hits": 6639,
+      "createdAt": "Sat, 04 Jul 2026 15:40:55 -0000",
+      "lastUpdated": "Thu, 23 Jul 2026 02:59:19 -0000",
+      "domain": "astrizda.com",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.711Z"
+    },
+    {
+      "siteName": "auralyx",
+      "views": 2987,
+      "hits": 4455,
+      "createdAt": "Fri, 10 Jul 2026 19:29:24 -0000",
+      "lastUpdated": "Fri, 10 Jul 2026 23:26:06 -0000",
+      "domain": "auralyx.site",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.682Z"
+    },
+    {
+      "siteName": "bridgebuilder",
+      "views": 2714,
+      "hits": 3491,
+      "createdAt": "Sun, 12 Jul 2026 00:15:00 -0000",
+      "lastUpdated": "Sun, 12 Jul 2026 01:16:18 -0000",
+      "domain": "bridgebuilder.pro",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.690Z"
+    },
+    {
+      "siteName": "confluxcircuit",
+      "views": 8706,
+      "hits": 11921,
+      "createdAt": "Wed, 18 Mar 2026 23:16:49 -0000",
+      "lastUpdated": "Wed, 05 Aug 2026 01:55:22 -0000",
+      "domain": "confluxcircuit.com",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.710Z"
+    },
+    {
+      "siteName": "defears",
+      "views": 3053,
+      "hits": 3468,
+      "createdAt": "Tue, 07 Jul 2026 03:18:06 -0000",
+      "lastUpdated": "Sat, 25 Jul 2026 19:43:17 -0000",
+      "domain": "defears.app",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.736Z"
+    },
+    {
+      "siteName": "deffy",
+      "views": 53918,
+      "hits": 115187,
+      "createdAt": "Fri, 04 Oct 2024 17:44:15 -0000",
+      "lastUpdated": "Fri, 14 Aug 2026 16:57:51 -0000",
+      "domain": "deffy.me",
+      "tags": [
+        "steaming",
+        "personal",
+        "about"
+      ],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.760Z"
+    },
+    {
+      "siteName": "defscribe",
+      "views": 15263,
+      "hits": 22074,
+      "createdAt": "Sat, 19 Apr 2025 01:51:28 -0000",
+      "lastUpdated": "Fri, 31 Jul 2026 04:01:22 -0000",
+      "domain": "defscribe.pro",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.739Z"
+    },
+    {
+      "siteName": "du3l",
+      "views": 10081,
+      "hits": 15534,
+      "createdAt": "Wed, 19 Nov 2025 22:54:20 -0000",
+      "lastUpdated": "Sat, 04 Jul 2026 06:22:02 -0000",
+      "domain": "du3l.me",
+      "tags": [
+        "duel",
+        "versus",
+        "online",
+        "game",
+        "multiplayer"
+      ],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.784Z"
+    },
+    {
+      "siteName": "hybrix",
+      "views": 7242,
+      "hits": 9318,
+      "createdAt": "Sun, 29 Mar 2026 00:27:51 -0000",
+      "lastUpdated": "Sat, 04 Jul 2026 09:39:41 -0000",
+      "domain": "hybrix.quest",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.809Z"
+    },
+    {
+      "siteName": "kovrycha",
+      "views": 27381,
+      "hits": 35015,
+      "createdAt": "Sun, 16 Mar 2025 21:31:30 -0000",
+      "lastUpdated": "Thu, 19 Mar 2026 08:00:18 -0000",
+      "domain": "kovrycha.tech",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.781Z"
+    },
+    {
+      "siteName": "madchatter",
+      "views": 5259,
+      "hits": 13441,
+      "createdAt": "Mon, 29 Jun 2026 11:11:16 -0000",
+      "lastUpdated": "Wed, 01 Jul 2026 14:17:27 -0000",
+      "domain": "madchatter.fun",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.835Z"
+    },
+    {
+      "siteName": "peerly",
+      "views": 7451,
+      "hits": 11282,
+      "createdAt": "Fri, 20 Mar 2026 21:35:26 -0000",
+      "lastUpdated": "Mon, 06 Jul 2026 13:39:14 -0000",
+      "domain": "peerly.site",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.808Z"
+    },
+    {
+      "siteName": "phexotial",
+      "views": 5227,
+      "hits": 9585,
+      "createdAt": "Tue, 14 Jul 2026 02:52:52 -0000",
+      "lastUpdated": "Fri, 17 Jul 2026 14:55:57 -0000",
+      "domain": "phexotial.com",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.860Z"
+    },
+    {
+      "siteName": "pikon",
+      "views": 5576,
+      "hits": 6915,
+      "createdAt": "Fri, 26 Dec 2025 23:47:21 -0000",
+      "lastUpdated": "Sat, 04 Jul 2026 07:21:45 -0000",
+      "domain": "pikon.me",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.836Z"
+    },
+    {
+      "siteName": "pyah",
+      "views": 10040,
+      "hits": 11724,
+      "createdAt": "Sun, 14 Sep 2025 00:56:52 -0000",
+      "lastUpdated": "Tue, 11 Aug 2026 16:07:38 -0000",
+      "domain": "pyah.live",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.885Z"
+    },
+    {
+      "siteName": "skriv",
+      "views": 3079,
+      "hits": 3780,
+      "createdAt": "Fri, 10 Jul 2026 13:58:48 -0000",
+      "lastUpdated": "Sat, 11 Jul 2026 03:32:11 -0000",
+      "domain": "skriv.app",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.910Z"
+    },
+    {
+      "siteName": "skywardascent",
+      "views": 14850,
+      "hits": 27505,
+      "createdAt": "Tue, 18 Mar 2025 03:02:41 -0000",
+      "lastUpdated": "Fri, 24 Jul 2026 01:57:39 -0000",
+      "domain": "skywardascent.com",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.869Z"
+    },
+    {
+      "siteName": "wikirace",
+      "views": 2760,
+      "hits": 3431,
+      "createdAt": "Tue, 19 Aug 2025 00:04:45 -0000",
+      "lastUpdated": "Sat, 11 Jul 2026 13:07:16 -0000",
+      "domain": "wikirace.quest",
+      "tags": [],
+      "error": null,
+      "stale": false,
+      "timestamp": "2026-08-14T17:11:08.933Z"
+    }
+  ]
+}
